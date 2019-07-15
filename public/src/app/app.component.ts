@@ -14,10 +14,19 @@ export class AppComponent implements OnInit{
 
   ngOnInit(){
     this.title = "MEAN";
-    this.getTasksfromService();
-    this.getTaskfromService();
+    // this.getTasksfromService();
+    // this.getTaskfromService();
   }
 
+  showAll():void{
+    console.log("Showing ALL")
+    this.getTasksfromService();
+  }
+
+  showOne(id:String):void{
+    console.log("Showing One with id:");
+    this.getTaskfromService(id)
+  }
   getTasksfromService(){
     let tempObservable = this._httpService.getTasks();
     tempObservable.subscribe(data => {
@@ -25,8 +34,8 @@ export class AppComponent implements OnInit{
       this.tasks = data['tasks'];
     });
   }
-  getTaskfromService(){
-    let tempObservable = this._httpService.getTaskbyId();  //tasks/:id
+  getTaskfromService(id){
+    let tempObservable = this._httpService.getTaskbyId(id);  //tasks/:id
     tempObservable.subscribe(data => {
       console.log("individual Task :",data);
       this.task = data["task"]
