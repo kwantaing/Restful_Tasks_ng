@@ -22,7 +22,7 @@ module.exports = {
     detail: function(req,res){
       Task.findOne({_id:req.params.id},function(err,task){
         if(err){
-          res.json({error:"No tasks with that id"})
+          res.json({error:err})
         }
         else{
           res.json({task:task})
@@ -31,10 +31,11 @@ module.exports = {
     },
     create: function(req,res){
       var task = new Task({title:req.body.title, description: req.body.description});
+      console.log("Req.body: ",req.body)
       task.save(function(err){
         if(err){
           console.log("something went wrong")
-          res.json({message:"Error"})
+          res.json({message:err})
         }else{
           console.log("successfully added");
           res.json({message: "Added new task",task:task})
@@ -43,7 +44,7 @@ module.exports = {
     },
 
     update: function(req,res){
-      Tasks.findOneandUpdate({_id:req.params.id},{$set: {title:req.body.title, description: req.body.description}}, function(err, task){
+      Task.findOneAndUpdate({_id:req.params.id},{$set: {title:req.body.title, description: req.body.description}}, function(err, task){
         if(err){
           console.log("something went wrong")
           res.json({message:"Error"})

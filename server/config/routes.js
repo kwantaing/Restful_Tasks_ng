@@ -12,18 +12,11 @@ module.exports = function(app){
         tasks.detail(req,res)
     })
 
-    app.post('/tasks', function(req,res){
-        tasks.create(req,res)
-    })
+    app.post('/tasks',tasks.create)
     app.get('/new/tasks',function(req,res){
         tasks.newPage(req,res)
     })
 
-    app.put('/tasks/:id',function(req,res){
-        tasks.update(req,res)
-    })
-    app.delete('/tasks/:id',function(req,res){
-        tasks.delete(req,res)
-    })
-
+    app.put('/tasks/:id',tasks.update)
+    app.delete('/tasks/:id',tasks.delete)
 }

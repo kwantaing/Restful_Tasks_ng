@@ -11,11 +11,13 @@ export class AppComponent implements OnInit{
   title : String;
   tasks : Array<Object>;
   task : Object;
+  newTask: Object;
+  updateTask: Object;
 
   ngOnInit(){
+    this.newTask = { title: "", description: "" }
+    this.updateTask = { title: "", description: "" }
     this.title = "MEAN";
-    // this.getTasksfromService();
-    // this.getTaskfromService();
   }
 
   showAll():void{
@@ -26,6 +28,28 @@ export class AppComponent implements OnInit{
   showOne(id:String):void{
     console.log("Showing One with id:");
     this.getTaskfromService(id)
+  }
+  onSubmit(){
+    let tempObservable = this._httpService.addTask(this.newTask);
+    tempObservable.subscribe(data => {
+      console.log("Got data from post back",data);
+    })
+    this.newTask = {title: "", description: ""};
+  }
+  onUpdate(id){
+    let tempObservable = this._httpService.editTask(id,this.updateTask);
+    console.log("adsad:",this.updateTask)
+    tempObservable.subscribe(data => {
+      console.log("updated",data);
+    })
+  }
+  delete(id){
+    console.log(id)
+    let tempObservable = this._httpService.deleteTask(id);
+    tempObservable.subscribe(data => {
+      console.log("deletion status:", data);
+    })
+    this.showAll();
   }
   getTasksfromService(){
     let tempObservable = this._httpService.getTasks();
@@ -38,6 +62,7 @@ export class AppComponent implements OnInit{
     let tempObservable = this._httpService.getTaskbyId(id);  //tasks/:id
     tempObservable.subscribe(data => {
       console.log("individual Task :",data);
+      this.updateTask = { title: data["task"].title, description: data["task"].description}
       this.task = data["task"]
 
   });
