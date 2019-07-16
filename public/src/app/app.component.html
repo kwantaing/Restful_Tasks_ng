@@ -11,7 +11,7 @@
 </div>
 <h2>The Third Task:</h2>
   <h3 *ngIf="task" style="margin-left: 5%;">{{task.title}}: {{task.description}}</h3> -->
-<div>
+<div class="root">
   <div class="edit">
       <form (submit)="onUpdate(task._id)">
           <h2>Update Task</h2>
@@ -27,22 +27,23 @@
         <div *ngFor = "let task of tasks" style="border:2px solid lightblue; width:30%;">
           <h3>{{task.title}}</h3>
           <h4>{{task.description}}</h4>
+          <button (click)="selectOne(task._id)">Show</button>
           <button (click)="showOne(task._id)">Edit</button>
           <button (click)="delete(task._id)">Delete</button>
         </div>
       </div>
   </div>
+  <div class="new">
+    <h2>New Task</h2>
+    <form (submit)="onSubmit()">
+        <!-- use the json pipe to see how newTask changes in real time -->
+        <p> {{ newTask | json }} </p>
+        <input type="text" name="newTask.title" [(ngModel)]="newTask.title" />
+        <input type="text" name="newTask.description" [(ngModel)]="newTask.description" />
+        <input type="submit" value="Create Task" />
+    </form>
+  </div>
+  <app-show-one *ngIf="selectedTask" [selectOne]="selectedTask"></app-show-one>
 </div>
-<div class="new">
-  <h2>New Task</h2>
-  <form (submit)="onSubmit()">
-      <!-- use the json pipe to see how newTask changes in real time -->
-      <p> {{ newTask | json }} </p>
-      <input type="text" name="newTask.title" [(ngModel)]="newTask.title" />
-      <input type="text" name="newTask.description" [(ngModel)]="newTask.description" />
-      <input type="submit" value="Create Task" />
-  </form>
-</div>
-
 <router-outlet></router-outlet>
 

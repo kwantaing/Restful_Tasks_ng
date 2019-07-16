@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { HttpService } from './http.service';
 
 @Component({
@@ -11,6 +11,7 @@ export class AppComponent implements OnInit{
   title : String;
   tasks : Array<Object>;
   task : Object;
+  selectedTask: Object;
   newTask: Object;
   updateTask: Object;
 
@@ -66,5 +67,16 @@ export class AppComponent implements OnInit{
       this.task = data["task"]
 
   });
+
 }
+
+  selectOne(id){
+    let tempObservable = this._httpService.getTaskbyId(id);  //tasks/:id
+    tempObservable.subscribe(data => {
+      console.log("individual Task :",data);
+      this.selectedTask = data["task"]
+
+  });
+}
+
 }
